@@ -18,6 +18,11 @@ function App() {
   const [artistInput, setArtistInput] = useState("");
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [artistList, setArtistList] = useState([]);
+  const [artistAlbumsClicked, setArtistAlbumsClicked] = useState(false);
+  const [similarArtistsClicked, setSimilarArtistsClicked] = useState(false);
+  const [artistId, setArtistId] = useState(0)
+  const [albumsArray, setAlbumsArray] = useState([]);
+  const [similarArtistsArray, setSimilarArtistsArray] = useState([]);
 
   function handleInput(text) {
     setArtistInput(text);
@@ -44,6 +49,49 @@ function App() {
     }
     //const artistId = data.message.body.artist.artist_id;
   }, [isButtonClicked]);
+
+  function getArtistAlbums(id) {
+    setArtistAlbumsClicked(!artistAlbumsClicked)
+    setArtistId(id)
+  }
+  
+useEffect(() => {
+  console.log(artistId);
+  async function fetchData() {
+    let albumSearchUrl = `artist.albums.get?artist_id=${artistId}&s_release_date=desc&g_album_name=1`;
+    let url = baseUrl + albumSearchUrl + apikey;
+    console.log(url);
+    let response = await fetch(url);
+    let data = await response.json();
+    console.log(data);
+    // setArtistList(data.message.body.artist_list);
+  }
+  if (artistId) {
+    fetchData();
+  }
+
+}, [artistAlbumsClicked]);
+
+  function getSimilarArtists(id) {
+    setSimilarArtistsClicked(!similarArtistsClicked)
+    setArtistId(id)
+  }
+
+  useEffect(() => {
+    console.log(artistId);
+    async function fetchData() {
+      let artistSearchUrl = `artist.related.get?artist_id=${artistId}&page_size=5&page=1`;
+      let url = baseUrl + artistSearchUrl + apikey;
+      console.log(url);
+      let response = await fetch(url);
+      let data = await response.json();
+      console.log(data);
+      // setArtistList(data.message.body.artist_list);
+    }
+    if (artistId) {
+      fetchData();
+    }
+  }, [similarArtistsClicked]);
 
   //        useEffect(() => {
   //          axios
@@ -73,7 +121,11 @@ function App() {
         artistInput={artistInput}
         handleClick={handleClick}
       />
-      <ArtistList artistList={artistList} />
+      <ArtistList
+        artistList={artistList}
+        getArtistAlbums={getArtistAlbums}
+        getSimilarArtists={getSimilarArtists}
+      />
     </div>
   );
 }

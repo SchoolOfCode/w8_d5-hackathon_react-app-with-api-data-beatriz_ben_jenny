@@ -1,31 +1,33 @@
 import React, { useState } from "react";
 
-function ArtistList({ artistList }) {
+function ArtistList({ artistList, getArtistAlbums, getSimilarArtists }) {
   const [readMore, setReadMore] = useState(false);
 
   return (
     <div>
       {artistList.map(function (artist) {
         return (
-          <a
-            className="get-more-link"
-            onClick={() => {
-              setReadMore(!readMore);
-            }}
-          >
-            <h2>{artist.artist.artist_name}</h2>
-          </a>
+          <div>
+            <h2
+              className="get-more-link"
+              onClick={() => {
+                setReadMore(!readMore);
+              }}
+              key={artist.artist.artist_id}
+            >
+              {artist.artist.artist_name}
+            </h2>
+            <button onClick={() => getArtistAlbums(artist.artist.artist_id)}>
+              See Artist's Albums
+            </button>
+            <button onClick={() => getSimilarArtists(artist.artist.artist_id)}>
+              See Similar Arists
+            </button>
+          </div>
         );
-        {
-          readMore && (
-            <div className="extra-content">
-              <button>See Artist's Albums</button>
-              <button>See Similar Arists</button>
-            </div>
-          );
-        }
+
       })}
-    </div>
+   </div>
   );
 }
 
