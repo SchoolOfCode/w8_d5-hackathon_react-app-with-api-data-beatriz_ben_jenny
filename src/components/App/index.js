@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import SearchByArtist from "../SearchByArtist";
 import ArtistList from "../ArtistList";
+import ArtistAlbums from "../ArtistAlbums";
+import SimilarArtists from "../SimilarArtists";
 // import axios from 'axios';
 
 //need to move this to .env file
@@ -63,8 +65,8 @@ useEffect(() => {
     console.log(url);
     let response = await fetch(url);
     let data = await response.json();
-    console.log(data);
-    // setArtistList(data.message.body.artist_list);
+    console.log(data.message.body.album_list);
+    setAlbumsArray(data.message.body.album_list);
   }
   if (artistId) {
     fetchData();
@@ -85,34 +87,15 @@ useEffect(() => {
       console.log(url);
       let response = await fetch(url);
       let data = await response.json();
-      console.log(data);
-      // setArtistList(data.message.body.artist_list);
+      console.log(data.message.body.artist_list);
+      setSimilarArtistsArray(data.message.body.artist_list);
     }
     if (artistId) {
       fetchData();
     }
   }, [similarArtistsClicked]);
 
-  //        useEffect(() => {
-  //          axios
-  //     .get(
-  //       `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/artist.search?q_artist=${artistInput}${apikey}`
-  //     )
-  //     .then(res => {
-  //       dispatch({
-  //         type: "SEARCH_TRACKS",
-  //         payload: res.data
-  //           // .message.body.track_list
-  //       });
-
-  //       // this.setState({ trackTitle: "" });
-
-  //       // toast.success("Here are your results...");
-  //     })
-  //     .catch(err => console.log(err));
-  // },
-  //        [isButtonClicked]);
-
+  
   return (
     <div className="App">
       <h1>Search for your favourite artist!</h1>
@@ -126,6 +109,8 @@ useEffect(() => {
         getArtistAlbums={getArtistAlbums}
         getSimilarArtists={getSimilarArtists}
       />
+      {albumsArray && <ArtistAlbums albumsArray={albumsArray} />}
+      {similarArtistsArray && <SimilarArtists similarArtistsArray={similarArtistsArray} />}
     </div>
   );
 }

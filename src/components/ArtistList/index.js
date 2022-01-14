@@ -7,13 +7,12 @@ function ArtistList({ artistList, getArtistAlbums, getSimilarArtists }) {
     <div>
       {artistList.map(function (artist) {
         return (
-          <div>
+          <div key={artist.artist.artist_id}>
             <h2
               className="get-more-link"
               onClick={() => {
                 setReadMore(!readMore);
               }}
-              key={artist.artist.artist_id}
             >
               {artist.artist.artist_name}
             </h2>
@@ -21,7 +20,7 @@ function ArtistList({ artistList, getArtistAlbums, getSimilarArtists }) {
               See Artist's Albums
             </button>
             <button onClick={() => getSimilarArtists(artist.artist.artist_id)}>
-              See Similar Arists
+              See Similar Artists
             </button>
           </div>
         );
