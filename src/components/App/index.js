@@ -42,7 +42,7 @@ function App() {
     if (artistInput) {
       fetchData();
     }
-    const artistId = data.message.body.artist.artist_id;
+    //const artistId = data.message.body.artist.artist_id;
   }, [isButtonClicked]);
 
   //        useEffect(() => {
