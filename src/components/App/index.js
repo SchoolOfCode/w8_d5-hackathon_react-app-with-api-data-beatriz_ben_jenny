@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import SearchByArtist from '../SearchByArtist';
-import axios from 'axios';
+import ArtistList from '../ArtistList';
+// import axios from 'axios';
 
 //need to move this to .env file
 let apikey = `&apikey=e0923e77c715a76152a0d46a1ecfd84b`;
@@ -70,6 +71,7 @@ function App() {
     <div className="App">
       <h1>Search for your favourite artist!</h1>
       <SearchByArtist handleInput={handleInput} artistInput={artistInput} handleClick={handleClick}/>
+      <ArtistList artistList={artistList}/>
     </div>
   );
 }
